@@ -15,7 +15,7 @@ const performOperation = async (req, res) => {
         res.status(201).json({ result });
     } catch (error) {
         console.error('Error performing operation:', error);
-        res.status(500).json({ error: 'An error occurred while performing the operation.' });
+        res.status(400).json({ error: 'An error occurred while performing the operation.' });
     }
 };
 
@@ -30,7 +30,7 @@ const getHistory = async (req, res) => {
     } catch (error) {
 
         console.error('Error fetching history:', error);
-        res.status(500).json({ error: 'An error occurred while fetching history.' });
+        res.status(400).json({ error: 'An error occurred while fetching history.' });
 
     }
 };
@@ -46,7 +46,7 @@ const clearHistory = async (req, res) => {
     } catch (error) {
 
         console.error('Error clearing history:', error);
-        res.status(500).json({ error: 'An error occurred while clearing history.' });
+        res.status(400).json({ error: 'An error occurred while clearing history.' });
     }
 };
 
@@ -61,7 +61,7 @@ const resetHistory = async (req, res) => {
     } catch (error) {
 
         console.error('Error resetting history:', error);
-        res.status(500).json({ error: 'An error occurred while resetting history.' });
+        res.status(400).json({ error: 'An error occurred while resetting history.' });
         
     }
 };
