@@ -1,0 +1,121 @@
+openapi: 3.0.0
+info:
+  title: Calculator API
+  description: This API performs basic calculator operations and manages operation history.
+  version: 1.0.0
+servers:
+  - url: http://localhost:4444
+    description: Local server
+paths:
+  /operations:
+    post:
+      summary: Perform an operation
+      description: Performs a basic arithmetic operation (add, sub, mul, div).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                operand1:
+                  type: number
+                  example: 5
+                operand2:
+                  type: number
+                  example: 3
+                operator:
+                  type: string
+                  enum: ["add", "sub", "mul", "div"]
+                  example: "add"
+              required:
+                - operand1
+                - operand2
+                - operator
+      responses:
+        '201':
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: number
+                    example: 8
+        '400':
+          description: Invalid input
+    get:
+      summary: Get operation history
+      description: Fetches all operations performed by the user.
+      parameters:
+        - name: email
+          in: header
+          required: true
+          schema:
+            type: string
+            example: user@example.com
+      responses:
+        '200':
+          description: History fetched successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Operation'
+  /history/{id}:
+    delete:
+      summary: Delete an operation by ID
+      description: Deletes a specific operation by its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 609f5b2c8b98c5e1a9d88f2a
+      responses:
+        '200':
+          description: Operation deleted successfully
+        '404':
+          description: Operation not found
+  /history:
+    delete:
+      summary: Reset all operations for a user
+      description: Deletes all operations performed by a user.
+      parameters:
+        - name: email
+          in: header
+          required: true
+          schema:
+            type: string
+            example: user@example.com
+      responses:
+        '200':
+          description: All operations reset
+components:
+  schemas:
+    Operation:
+      type: object
+      properties:
+        operand1:
+          type: number
+          example: 5
+        operand2:
+          type: number
+          example: 3
+        operator:
+          type: string
+          enum: ["add", "sub", "mul", "div"]
+          example: add
+        result:
+          type: number
+          example: 8
+        email:
+          type: string
+          example: user@example.com
+        timestamp:
+          type: string
+          format: date-time
+          example: '2024-10-16T12:45:00Z'
